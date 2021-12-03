@@ -45,14 +45,15 @@ foodstashRouter.put("/:id/:category", async (req, res) => {
   try {
     const id: string = req.params.id;
     const category: string = req.params.category;
-    const categoryData = req.body;
+    const categoryData = req.body.updateData;
     const query: any = {};
     query[category] = categoryData;
+    console.log(id, category, req.body, categoryData, query, query[category]);
     const client = await getClient();
     await client
       .db()
       .collection<Profile>("profiles")
-      .updateOne({ uid: id }, { $set: query });
+      .updateOne({ uid: id }, { $push: query });
     const client1 = await getClient();
     const results = await client1
       .db()
