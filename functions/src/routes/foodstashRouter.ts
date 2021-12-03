@@ -31,11 +31,35 @@ foodstashRouter.post("/:id", async (req, res) => {
       equipment: [],
       diet: {},
       intolerances: {},
-      favorites: "",
+      favorites: [],
     };
     const client = await getClient();
     await client.db().collection<Profile>("profiles").insertOne(newProfile);
     res.status(201).json(newProfile);
+  } catch (err) {
+    errorResponse(err, res);
+  }
+});
+
+foodstashRouter.put("/:id/:category", async (req, res) => {
+  try {
+    const id: string = req.params.id;
+    const category: string = req.params.category;
+    const categoryData = req.body;
+    const query: any = {};
+    query[category] = categoryData;
+    const client = await getClient();
+    await client
+      .db()
+      .collection<Profile>("profiles")
+      .updateOne({ uid: id }, { $set: query });
+    const client1 = await getClient();
+    const results = await client1
+      .db()
+      .collection<Profile>("profiles")
+      .find({ uid: id })
+      .toArray();
+    res.status(201).json(results);
   } catch (err) {
     errorResponse(err, res);
   }
