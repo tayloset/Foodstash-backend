@@ -1,6 +1,6 @@
 import express from "express";
 import { getClient } from "../db";
-import Profile from "../models/Profile";
+import Profile, { Diet, Intolerances } from "../models/Profile";
 
 const foodstashRouter = express.Router();
 const errorResponse = (error: any, res: any) => {
@@ -25,12 +25,38 @@ foodstashRouter.get("/:id", async (req, res) => {
 
 foodstashRouter.post("/:id", async (req, res) => {
   try {
+    const emptyDiet: Diet = {
+      glutengree: false,
+      ketogenic: false,
+      vegetarian: false,
+      lactovegetarian: false,
+      ovovegetarian: false,
+      pescetarian: false,
+      paleo: false,
+      primal: false,
+      lowFODMAP: false,
+      whole30: false,
+    };
+    const emptyIntolerances: Intolerances = {
+      dairy: false,
+      egg: false,
+      gulten: false,
+      grain: false,
+      peanut: false,
+      seafood: false,
+      sesame: false,
+      shellfish: false,
+      soy: false,
+      sulfite: false,
+      treeNut: false,
+      wheat: false,
+    };
     const newProfile: Profile = {
       uid: req.params.id,
       pantry: [],
       equipment: [],
-      diet: {},
-      intolerances: {},
+      diet: emptyDiet,
+      intolerances: emptyIntolerances,
       favorites: [],
     };
     const client = await getClient();
@@ -50,10 +76,17 @@ foodstashRouter.put("/:id/:category", async (req, res) => {
     query[category] = categoryData;
     console.log(id, category, req.body, categoryData, query, query[category]);
     const client = await getClient();
-    await client
-      .db()
-      .collection<Profile>("profiles")
-      .updateOne({ uid: id }, { $push: query });
+    if (typeof categoryData === "string") {
+      await client
+        .db()
+        .collection<Profile>("profiles")
+        .updateOne({ uid: id }, { $push: query });
+    } else {
+      await client
+        .db()
+        .collection<Profile>("profiles")
+        .updateOne({ uid: id }, { $set: query });
+    }
     const client1 = await getClient();
     const results = await client1
       .db()
@@ -61,6 +94,7 @@ foodstashRouter.put("/:id/:category", async (req, res) => {
       .find({ uid: id })
       .toArray();
     res.status(201).json(results);
+    console.log(results);
   } catch (err) {
     errorResponse(err, res);
   }
