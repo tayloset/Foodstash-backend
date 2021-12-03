@@ -11,5 +11,5 @@ export default interface Profile {
   equipment: string[];
   diet: any;
   intolerances: any;
-  favorites: string;
+  favorites: string[];
 }
