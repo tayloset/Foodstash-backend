@@ -13,27 +13,12 @@ export interface Diet {
   whole30: boolean;
 }
 
-export interface Intolerances {
-  dairy: boolean;
-  egg: boolean;
-  gulten: boolean;
-  grain: boolean;
-  peanut: boolean;
-  seafood: boolean;
-  sesame: boolean;
-  shellfish: boolean;
-  soy: boolean;
-  sulfite: boolean;
-  treeNut: boolean;
-  wheat: boolean;
-}
-
 export default interface Profile {
   _id?: ObjectId;
   uid: string;
   pantry: string[];
   equipment: string[];
   diet: Diet;
-  intolerances: Intolerances;
+  intolerances: string;
   favorites: string[];
 }
