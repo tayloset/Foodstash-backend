@@ -1,6 +1,6 @@
 import express from "express";
 import { getClient } from "../db";
-import Profile, { Diet, Intolerances } from "../models/Profile";
+import Profile, { Diet } from "../models/Profile";
 
 const foodstashRouter = express.Router();
 const errorResponse = (error: any, res: any) => {
@@ -37,20 +37,7 @@ foodstashRouter.post("/:id", async (req, res) => {
       lowFODMAP: false,
       whole30: false,
     };
-    const emptyIntolerances: Intolerances = {
-      dairy: false,
-      egg: false,
-      gulten: false,
-      grain: false,
-      peanut: false,
-      seafood: false,
-      sesame: false,
-      shellfish: false,
-      soy: false,
-      sulfite: false,
-      treeNut: false,
-      wheat: false,
-    };
+    const emptyIntolerances: string = "";
     const newProfile: Profile = {
       uid: req.params.id,
       pantry: [],
