@@ -37,14 +37,15 @@ foodstashRouter.post("/:id", async (req, res) => {
       lowFODMAP: false,
       whole30: false,
     };
-    const emptyIntolerances: string = "";
     const newProfile: Profile = {
       uid: req.params.id,
       pantry: [],
+      pantryString: "",
       equipment: [],
+      equipmentString: "",
       diet: emptyDiet,
-      intolerances: emptyIntolerances,
-      favorites: [],
+      intolerances: "",
+      favorites: "",
     };
     const client = await getClient();
     await client.db().collection<Profile>("profiles").insertOne(newProfile);
