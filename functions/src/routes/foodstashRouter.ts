@@ -40,12 +40,10 @@ foodstashRouter.post("/:id", async (req, res) => {
     const newProfile: Profile = {
       uid: req.params.id,
       pantry: [],
-      pantryString: "",
       equipment: [],
-      equipmentString: "",
       diet: emptyDiet,
       intolerances: "",
-      favorites: "",
+      favorites: [],
     };
     const client = await getClient();
     await client.db().collection<Profile>("profiles").insertOne(newProfile);
