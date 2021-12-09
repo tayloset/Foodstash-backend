@@ -31,7 +31,7 @@ foodstashRouter.post("/:id", async (req, res) => {
       equipment: [],
       diet: [],
       intolerances: "",
-      favorites: [],
+      favorites: [""],
     };
     const client = await getClient();
     await client.db().collection<Profile>("profiles").insertOne(newProfile);
