@@ -1,24 +1,11 @@
 import { ObjectId } from "bson";
 
-export interface Diet {
-  glutengree: boolean;
-  ketogenic: boolean;
-  vegetarian: boolean;
-  lactovegetarian: boolean;
-  ovovegetarian: boolean;
-  pescetarian: boolean;
-  paleo: boolean;
-  primal: boolean;
-  lowFODMAP: boolean;
-  whole30: boolean;
-}
-
 export default interface Profile {
   _id?: ObjectId;
   uid: string;
   pantry: string[];
   equipment: string[];
-  diet: Diet;
+  diet: string[];
   intolerances: string;
   favorites: string[];
 }
