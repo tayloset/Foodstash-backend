@@ -1,6 +1,6 @@
 import express from "express";
 import { getClient } from "../db";
-import Profile, { Diet } from "../models/Profile";
+import Profile from "../models/Profile";
 
 const foodstashRouter = express.Router();
 const errorResponse = (error: any, res: any) => {
@@ -25,23 +25,11 @@ foodstashRouter.get("/:id", async (req, res) => {
 
 foodstashRouter.post("/:id", async (req, res) => {
   try {
-    const emptyDiet: Diet = {
-      glutengree: false,
-      ketogenic: false,
-      vegetarian: false,
-      lactovegetarian: false,
-      ovovegetarian: false,
-      pescetarian: false,
-      paleo: false,
-      primal: false,
-      lowFODMAP: false,
-      whole30: false,
-    };
     const newProfile: Profile = {
       uid: req.params.id,
       pantry: [],
       equipment: [],
-      diet: emptyDiet,
+      diet: [],
       intolerances: "",
       favorites: [],
     };
